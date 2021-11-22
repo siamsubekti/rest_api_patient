@@ -259,6 +259,7 @@ class PatientController extends Controller
      */
     public function update(Request $request, $id): JsonResponse
     {
+//        echo $request;
         $patient = Patient::find($id);
 
         if ($patient) {
@@ -308,5 +309,30 @@ class PatientController extends Controller
         ]);
 
         return $person;
+    }
+
+    public function destroy($id): JsonResponse
+    {
+        $patient = Patient::find($id);
+
+        if ($patient) {
+            $patient->delete();
+
+            return response()->json([
+                'status' => [
+                    'code' => '200',
+                    'description' => 'Patient has been deleted',
+                ],
+                'data' => $patient,
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => [
+                    'code' => '404',
+                    'description' => 'Data Patient Not Found'
+                ],
+                'data' => [],
+            ], 404);
+        }
     }
 }
